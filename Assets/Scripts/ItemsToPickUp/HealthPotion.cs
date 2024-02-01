@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthPotion : MonoBehaviour
 {
-    public int HealthPointBonus {  get; private set; }
+    public float HealthPointBonus {  get; private set; }
 
     private void Start()
     {

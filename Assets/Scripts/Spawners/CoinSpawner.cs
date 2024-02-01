@@ -1,32 +1,35 @@
 using System.Collections;
 using UnityEngine;
 
-public class CoinSpawner : MonoBehaviour
+namespace Spawners
 {
-    [SerializeField] Point[] _points;
-    [SerializeField] Coin _coin;
-
-    private WaitForSeconds _waitForSeconds;
-    private float _delay = 5f;
-
-    private void Awake()
+    public class CoinSpawner : MonoBehaviour
     {
-        _waitForSeconds = new WaitForSeconds(_delay);
-    }
+        [SerializeField] Point[] _points;
+        [SerializeField] Coin _coin;
 
-    private void Start()
-    {
-        StartCoroutine(Spawn());
-    }
+        private WaitForSeconds _waitForSeconds;
+        private float _delay = 5f;
 
-    private IEnumerator Spawn()
-    {
-        while (enabled)
+        private void Awake()
         {
-            Point point = _points[Random.Range(0, _points.Length)];
-            Coin newCoin = Instantiate(_coin, point.transform.position, Quaternion.identity);
+            _waitForSeconds = new WaitForSeconds(_delay);
+        }
 
-            yield return _waitForSeconds;
+        private void Start()
+        {
+            StartCoroutine(Spawn());
+        }
+
+        private IEnumerator Spawn()
+        {
+            while (enabled)
+            {
+                Point point = _points[Random.Range(0, _points.Length)];
+                Coin newCoin = Instantiate(_coin, point.transform.position, Quaternion.identity);
+
+                yield return _waitForSeconds;
+            }
         }
     }
 }

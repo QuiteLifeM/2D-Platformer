@@ -13,8 +13,8 @@ public class EnemyPatrolMover : MonoBehaviour
     private Animator _animator;
     private Queue<Transform> _targetsQueue;
     private Vector2 _targetPosition;
-    private float _minDistance = 0.5f;
-    private float _minDistanceToAttack = 2f;
+    private readonly float _minDistance = 0.5f;
+    private readonly float _minDistanceToAttack = 2f;
     private SpriteRenderer _spriteRenderer;
     private EnemyTriggerZone _triggerZone;
 
@@ -45,11 +45,7 @@ public class EnemyPatrolMover : MonoBehaviour
         {
             _targetPosition = _triggerZone.PlayerPosition;
             transform.position = Vector2.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
-
-            if (transform.position.x > _targetPosition.x)
-                _spriteRenderer.flipX = true;
-            else
-                _spriteRenderer.flipX = false;
+            _spriteRenderer.flipX = transform.position.x > _targetPosition.x;
 
             if (Vector2.Distance(transform.position, _targetPosition) < _minDistanceToAttack)
             {
@@ -67,14 +63,7 @@ public class EnemyPatrolMover : MonoBehaviour
 
     private void GoPatrol()
     {
-        if (transform.position.x > _targetPosition.x)
-        {
-            _spriteRenderer.flipX = true;
-        }
-        else
-        {
-            _spriteRenderer.flipX = false;
-        }
+        _spriteRenderer.flipX = transform.position.x > _targetPosition.x;
 
         if (Vector2.Distance(transform.position, _targetPosition) < _minDistance)
         {

@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private int _healthPoint = 100;
-    private int _attackDamage = 15;
+    private Health _health;
     private EnemyPatrolMover _mover;
 
-    public int AttackDamage => _attackDamage;
+    public float AttackDamage { get; } = 15f;
     public bool IsAttack { get; private set; }
 
     private void Awake()
     {
-         _mover = GetComponent<EnemyPatrolMover>();
+        _mover = GetComponent<EnemyPatrolMover>();
         IsAttack = _mover.IsAttacking;
+        _health = GetComponent<Health>();
     }
 
     private void Update()
@@ -22,15 +20,8 @@ public class Enemy : MonoBehaviour
         IsAttack = _mover.IsAttacking;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void TakeDamage(float damage)
     {
-        if(collision.TryGetComponent<Player>(out Player player))
-        {
-            if (player.IsAttack == true)
-            {
-                Debug.Log("Враг получил урон");
-                _healthPoint -= player.AttackDamage;
-            }
-        }
+        _health.TakeDamage(damage);
     }
 }
