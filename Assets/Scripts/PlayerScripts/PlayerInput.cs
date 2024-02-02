@@ -3,19 +3,22 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerAttacker))]
 [RequireComponent(typeof(PlayerAnimation))]
 [RequireComponent(typeof(PlayerMover))]
+[RequireComponent(typeof(PlayerAbilitySuck))]
 public class PlayerInput : MonoBehaviour
 {
     private PlayerMover _playerMover;
     private PlayerAnimation _playerAnimation;
     private PlayerAttacker _playerAttacker;
+    private PlayerAbilitySuck _playerAbilitySuck;
     private float _direction = 0f;
     private bool _isLeft = false;
-    
+
     private void Awake()
     {
         _playerMover = GetComponent<PlayerMover>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _playerAttacker = GetComponent<PlayerAttacker>();
+        _playerAbilitySuck = GetComponent<PlayerAbilitySuck>();
     }
 
     private void Update()
@@ -25,6 +28,12 @@ public class PlayerInput : MonoBehaviour
 
     private void GetInput()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            if (_playerAbilitySuck.IsTrigger)
+                _playerAbilitySuck.Apply();
+        }
+
         if (Input.GetKeyDown(KeyCode.H))
         {
             _playerAttacker.Attack(_isLeft);
